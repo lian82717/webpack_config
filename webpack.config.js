@@ -5,11 +5,22 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/js/index.js',
+    entry: {
+        index: './src/js/index.js',
+        page2: './src/js/page2.js',
+    },
     plugins:[
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            filename: 'index.html'
+            chunks: ['index'],
+            filename: 'index.html',
+            cache: false
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/page2.html',
+            chunks: ['page2'],
+            filename: 'page2.html',
+            cache: false
         }),
         new CopyWebpackPlugin({
             patterns: [
@@ -22,7 +33,7 @@ module.exports = {
         new CleanWebpackPlugin()
     ],
     output: {
-        filename: 'bundle.js',
+        filename: 'js/[name].js',
         path: path.resolve(__dirname, 'dist'),
     },
     module: {
@@ -33,7 +44,12 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env']
+                        presets: [
+                                ['@babel/preset-env',{
+                                useBuiltIns: 'usage',
+                                corejs: 3
+                            }]
+                        ]
                     }
                 }
             },

@@ -19,3 +19,24 @@ import triss from '../images/copic_2.jpg';
 var img = new Image(); 
 img.src = triss; 
 document.body.appendChild(img);
+
+const logAsync = (message, time) => {
+    return new Promise((resolve, reject) => {
+        if (message && time) {
+            setTimeout(() => {
+                console.log(message);
+                resolve()
+            }, time);
+        } else {
+            reject();
+        }
+    });
+};
+
+const demo = async () => {
+    await logAsync('1 秒後會出現這句', 1000);
+    await logAsync('再 1.5 秒後會出現這句', 1500);
+    await logAsync('再 2 秒後會出現這句', 2000);
+};
+
+demo();
